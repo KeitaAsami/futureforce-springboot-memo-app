@@ -18,12 +18,30 @@
         </div>
 
         <div class="note-form-card">
-            <form th:action="${memo.id} != null ? @{|/memo/update/${memo.id}|} : @{/memo/create}" th:object="${memo}" method="post">        
+            <form th:action="${memo.id} != null ? @{|/memo/update/${memo.id}|} : @{/memo/create}" th:object="${memo}" method="post">
                 <div class="form-group">
                     <label>タイトル：</label>
                     <input type="text" th:field="*{title}">
                     <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error-message"></div>
                 </div>
+
+                <div class="form-group">
+                    <label>優先度：</label>
+                    <div class="priority-group">
+                        <div th:each="p : ${priorities}" class="priority-item">
+                            <label th:for="${'p-' + p.name()}"
+                                   th:class="|priority-pill ${p.name().toLowerCase() == 'middle' ? 'medium' : p.name().toLowerCase()}|">
+
+                                <input type="radio"
+                                    th:field="*{priority}"
+                                    th:value="${p.name()}"
+                                    th:id="${'p-' + p.name()}"
+                                    class="priority-radio">
+                                <span th:text="${p.label}"></span>
+                            </label>
+                       </div>
+                   </div>
+                   <div th:if="${#fields.hasErrors('priority')}" th:errors="*{priority}" class="error-message"></div>                </div>
 
                 <div class="form-group">
                     <label>内容：</label>
