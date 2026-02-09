@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>管理者登録</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>管理者新規登録</h1>
+
+        <form th:action="@{/admin/signup}" th:object="${admin}" method="post" style="display: flex; flex-direction: column; gap: 1.25rem;">
+            <div>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">姓</label>
+                <input type="text" th:field="*{lastName}" required
+                       style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius);">
+            </div>
+            <div>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">名</label>
+                <input type="text" th:field="*{firstName}" required
+                       style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius);">
+            </div>
+            <div>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">メールアドレス</label>
+                <input type="email" th:field="*{email}" required
+                       style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius);">
+            </div>
+            <div>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">パスワード</label>
+                <input type="password" th:field="*{password}" required
+                       style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius);">
+            </div>
+
+            <button type="submit" class="btn btn-primary"
+                    style="width: 100%; padding: 0.8rem; font-size: 1rem; cursor: pointer; margin-top: 1rem;">
+                登録
+            </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <a th:href="@{/admin/signin}" style="text-decoration: none;">
+                <button type="button" class="btn btn-outline" style="width: 100%;">ログイン画面へ戻る</button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
