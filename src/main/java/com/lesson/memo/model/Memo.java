@@ -12,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.NotNull;
+
 import lombok.Data;
 
 @Entity
@@ -36,7 +38,11 @@ public class Memo {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
+    @NotNull(message = "優先順位を選択してください")
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Priority priority;
+    public Priority getPriority() {
+    	return priority;
+    }
 }
