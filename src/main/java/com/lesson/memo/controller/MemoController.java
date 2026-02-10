@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lesson.memo.model.Memo;
 import com.lesson.memo.repository.MemoRepository;
@@ -100,8 +99,8 @@ public class MemoController {
     public String update(@PathVariable Long id,
             @ModelAttribute @Valid Memo memo,
             BindingResult result,
-            HttpServletResponse response,
-            RedirectAttributes redirectAttributes) {
+            Model model,
+            HttpServletResponse response) {
 
         Optional<Memo> opt = memoRepository.findById(id);
         if (opt.isEmpty()) {
@@ -112,9 +111,8 @@ public class MemoController {
         Memo memoToUpdate = opt.get();
 
         if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.memo", result);
-            redirectAttributes.addFlashAttribute("memo", memo);
-            return "redirect:/memo/edit/" + id; // editにリダイレクト
+            model.addAttribute("priorities", Priority.values());
+            return "memo-form";
         }
 
         memoToUpdate.setTitle(memo.getTitle());
