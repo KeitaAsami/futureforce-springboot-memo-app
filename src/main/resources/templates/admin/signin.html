@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>管理者ログイン</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>管理者ログイン</h1>
+
+        <div th:if="${param.error}" style="color: red; margin-bottom: 1rem;">
+            メールアドレスまたはパスワードが正しくありません。
+        </div>
+
+        <div th:if="${param.logout}" style="color: blue; margin-bottom: 1rem;">
+            ログアウトしました。
+        </div>
+
+        <form th:action="@{/admin/signin}" method="post" style="display: flex; flex-direction: column; gap: 1.25rem;">
+            <div>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">メールアドレス：</label>
+                <input type="email" name="email" required
+                       style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius);">
+            </div>
+            <div>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">パスワード：</label>
+                <input type="password" name="password" required
+                       style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius);">
+            </div>
+
+            <button type="submit" class="btn btn-primary"
+                    style="width: 100%; padding: 0.8rem; font-size: 1rem; cursor: pointer; margin-top: 0.5rem;">
+                ログイン
+            </button>
+        </form>
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <a th:href="@{/admin/signup}" style="text-decoration: none;">
+                <button type="button" class="btn btn-outline" style="width: 100%;">新規登録へ</button>
+            </a>
+        </div>
+     </div>
+</body>
+</html>
