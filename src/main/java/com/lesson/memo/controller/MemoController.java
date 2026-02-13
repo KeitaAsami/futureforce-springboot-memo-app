@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.lesson.memo.model.Memo;
 import com.lesson.memo.repository.MemoRepository;
 import com.lesson.memo.model.Priority;
@@ -28,18 +31,38 @@ public class MemoController {
     @Autowired
     private MemoRepository memoRepository;
 
-    // 一覧画面表示：優先度順にソート
+    // 一覧画面表示
     @GetMapping
     public String list(Model model) {
-        List<Memo> memos = memoRepository.findAll().stream()
-        		.sorted((m1, m2) -> {
-        			if (m1.getPriority() == null) return 1;
+    	List<Memo> memos = memoRepository.findAll();
+    	model.addAttribute("memos", sortMemos(memos));
+        return "memo-list";
+    }
+    // 検索機能
+    @GetMapping("/search")
+    public String search(@RequestParam(name = "keyword", required = false) String keyword, Model model) {
+    	 List<Memo> memos;
+
+    	 if (keyword != null && !keyword.trim().isEmpty()) {
+             memos = memoRepository.findByTitleContainingOrContentContaining(keyword, keyword);
+         } else {
+             memos = memoRepository.findAll();
+         }
+
+    	 model.addAttribute("memos", sortMemos(memos));
+         model.addAttribute("keyword", keyword);
+         return "memo-list";
+    }
+
+    // 共有ソート処理
+    private List<Memo> sortMemos(List<Memo> memos) {
+        return memos.stream()
+                .sorted((m1, m2) -> {
+                    if (m1.getPriority() == null) return 1;
                     if (m2.getPriority() == null) return -1;
                     return m1.getPriority().compareTo(m2.getPriority());
                 })
-        		.toList();
-        model.addAttribute("memos", memos);
-        return "memo-list";
+                .toList();
     }
 
     @GetMapping("/new")
