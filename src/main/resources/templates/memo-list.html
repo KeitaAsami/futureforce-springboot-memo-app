@@ -59,22 +59,31 @@
 
 <body>
     <div class="container">
-        <div class="header">
+        <div class="header" style="display: flex; justify-content: space-between; align-items: center;">
             <h1 class="app-title">メモ一覧</h1>
-            <a th:href="@{/memo/new}" class="btn btn-primary">
-                <i class="ri-add-circle-line"></i> 新規メモ
-            </a>
+
+            <div style="display: flex; gap: 12px; align-items: center;">
+                <a th:href="@{/memo/new}" class="btn btn-primary" style="display: flex; align-items: center; gap: 5px; margin: 0;">
+                    <i class="ri-add-circle-line"></i> 新規メモ
+                </a>
+
+                <form th:action="@{/admin/logout}" method="post" style="margin: 0;">
+                    <button type="submit" class="btn btn-danger" style="display: flex; align-items: center; gap: 5px;">
+                        <i class="ri-logout-box-r-line"></i>ログアウト
+                    </button>
+                </form>
+            </div>
         </div>
 
-        <div class= "seearch-contaoner">
-            <form th:action="@{/memo/search}" method="get" class="search-form">
-                <div class="ri-search-iput-wrapper">
-                    <i class="ri-search-line search-icon"></i>
-                    <input type="text" name="keyword" th:value="${keyword}"
-                    class="search-input" placeholder="タイトルまたは内容で検索…">
+        <div class="search-container" Style="margin-bottom: 2rem; background: var(--color-white); padding: 1.25rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+            <form th:action="@{/memo/search}" method="get" style="display: flex; gap: 0.75rem;">
+                <div style="flex-grow: 1; position: relative;">
+                    <i class="ri-search-line" style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--color-text-light);"></i>
+                    <input type="text" name="keyword" th:value="${keyword}" placeholder="タイトルや内容で検索．．．"
+                        style="width: 100%; padding: 0.6rem 0.75rem 0.6rem 2.25rem; border: 1px solid var(--color-border); border-radius: var(--radius); font-size: 0.95rem;">
                 </div>
-                <button type="submit" class="btn btn-primary btn-search-submit">検索</button>
-                <a th:href="@{/memo}" class="btn-reset">リセット</a>
+                <button type="submit" class="btn btn-primary" style="min-width: 100px;">検索</button>
+                <a th:href="@{/memo}" class="btn btn-outline" th:if="${keyword !=null and keyword != ''}">クリア</a>
             </form>
         </div>
 
